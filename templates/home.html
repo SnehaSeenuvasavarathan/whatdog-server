@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WhatDog?</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">WhatDog?</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="jumbotron text-center" style="font-family: Arial, Helvetica, sans-serif;">
+      <h1 style="font-size: xx-large;">Choose the image of a dog or a human face</h1>
+      <p>If it's a dog, we'll determine the most likely breed. If it's a human face, we'll determine the most resembling dog breed.</p>
+    </div>
+      <br><br>
+      <form class="form-horizontal" action="/submit" method="post" enctype="multipart/form-data">
+       
+        <div class="form-group">
+          <div class="col-sm-10"> 
+          <label class="control-label" for="pwd">Upload a dog image:</label>
+        </div>
+          <div class="col-sm-10">          
+            <input type="file" class="form-control col-sm-10" placeholder="Hours Studied"  name="my_image" id="pwd">
+          </div>
+        </div>
+        <div class="form-group">        
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+        </div>
+      </form>
+      {% if prediction %}
+      <img src="{{img_path}}" height="400px" width="400px">
+      <h2> Its a  <i> {{prediction}} </i></h2>
+      {% endif %}
+    </div>      
+    <!-- <form class="form" action="/about" method="get">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-success">About</button>
+      </div>
+    </form> -->
+  </body>
+</html>
+
+
+
+
+
+
+
+
