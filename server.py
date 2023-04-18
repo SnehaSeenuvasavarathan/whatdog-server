@@ -33,10 +33,10 @@ def send_img():
 	p = predict_label(img_path)
 	return render_template("prediction.html", prediction = p, img_path = img_path)
 
-@app.route("/question", methods = ['POST'])
+@app.route("/question", methods = ['GET','POST'])
 def send_answer():
-	qn = request.json['question']
-	print(qn)
+	# qn = request.json['question']
+	# print(qn)
 	return 'yagaa'
 
 if __name__ =='__main__':
