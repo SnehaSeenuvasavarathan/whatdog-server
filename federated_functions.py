@@ -3,10 +3,11 @@ from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 import numpy as np
 
-def convert_label(label):
+def convert_label(label, no_of_files):
     dct = {'Maltese_dog': 0, 'Rottweiler': 1, 'Pekinese': 2, 'Blenheim_spaniel': 3, 'Basset': 4, 'Japanese_spaniel': 5, 'Chihuahua': 6, 'Afghan_hound': 7, 'Beagle': 8, 'Doberman': 9, 'Papillon': 10, 'Shih_Tzu': 11, 'Rhodesian_ridgeback': 12, 'Golden_retriever': 13, 'Siberian_husky': 14, 'Toy_terrier': 15, 'Labrador_retriever': 16, 'German_shepherd': 17, 'Bloodhound': 18, 'Bluetick': 19}
-    y = np.zeros((1,20))
-    y[0, dct[label]] = 1
+    y = np.zeros((no_of_files,20))
+    for i in range(no_of_files):
+        y[i, dct[label]] = 1
     print(y)
     return y
 

@@ -35,7 +35,7 @@ def update_model(new_X, new_y):
     print('XY SHAPE', new_X.shape, new_y.shape)
     local_model.fit(new_X, new_y, epochs=8)
 
-    scaling_factor = weight_scaling_factor(3614, 1) # 30/3000 = 1/100 = 0.01
+    scaling_factor = weight_scaling_factor(3614, len(new_X)) # 30/3000 = 1/100 = 0.01
     local_weights = local_model.get_weights()
     a = scale_model_weights(global_weights, 1-scaling_factor)
     b = scale_model_weights(local_weights, scaling_factor)
@@ -59,17 +59,26 @@ def predict():
 
 @app.route("/update", methods=['POST'])
 def update():
-    print("GLLLLLAAAAEEEE>>>>>")
-    img = request.files['image']
+    no_of_files = int(request.form.get('no_of_files'))
+    # img = request.files.getlist('file')
+    image_paths = []
+    for i in range(no_of_files):
+        img = request.files['file'+str(i+1)]
+        img_path = "static/uploads/" + str(i) + img.filename
+        img.save(img_path)
+        image_paths.append(img_path)
+        print("COUNTING FILES ", i)
+    print("IMAGE PATHS", image_paths)
+    new_X = np.zeros((no_of_files, 200, 200, 3))
+    for i,path in enumerate(image_paths):
+        img = image.load_img(path, target_size=(200, 200))
+        img = image.img_to_array(img)
+        new_X[i] = img
+
     label = request.form.get('label')
     print('LABEL IS ', label)
-    new_y = convert_label(label)
-    img_path = "static/uploads/" + img.filename
-    img.save(img_path)
-    img = image.load_img(img_path, target_size=(200, 200))
-    img = image.img_to_array(img)
-    new_X = img.reshape(1, 200, 200, 3)
-    print("BEFORE UPDATE")
+    new_y = convert_label(label, no_of_files)
+    print("LEN OF IMAGE PATHS",len(image_paths))
     update_model(new_X, new_y)
     print("AFTWR UPDATE")
     return "Success"
