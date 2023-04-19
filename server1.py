@@ -1,7 +1,6 @@
 # Import libraries
 import os
 import glob
-
 import numpy as np
 # import PIL
 # from PIL import Image
@@ -15,6 +14,7 @@ from tensorflow.keras.preprocessing import image
 from flask import Flask, render_template, request
 import requests as rq
 from federated_functions import *
+from training import *
 
 app = Flask(__name__)
 global_model = load_model('model_20.h5')
@@ -81,6 +81,15 @@ def update():
     print("LEN OF IMAGE PATHS",len(image_paths))
     update_model(new_X, new_y)
     print("AFTWR UPDATE")
+    return "Success"
+
+@app.route("/new_class", methods=['POST', 'GET'])
+def new_class():
+    X, Y, num_classes = load_data()
+    print(X.shape)
+    model = create_model_new_class(num_classes)
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
+    train(model, X, Y)
     return "Success"
 
 if __name__ =='__main__':
