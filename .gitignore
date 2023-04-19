@@ -1,2 +1,4 @@
-__pycache__\
-statics\uploads\
+__pycache__/
+static/uploads/
+data.zip
+data/
