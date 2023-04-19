@@ -83,14 +83,26 @@ def update():
     print("AFTWR UPDATE")
     return "Success"
 
-@app.route("/new_class", methods=['POST', 'GET'])
+@app.route("/new_class", methods=['POST'])
 def new_class():
+    label = request.form.get('label')
+    os.mkdir('data/'+label)
+    no_of_files = int(request.form.get('no_of_files'))
+    image_paths = []
+    for i in range(no_of_files):
+        img = request.files['file'+str(i+1)]
+        img_path = "data/" + label+'/' + img.filename
+        img.save(img_path)
+        image_paths.append(img_path)
+
     X, Y, num_classes = load_data()
-    print(X.shape)
+    print(X.shape, Y.shape, num_classes)
     model = create_model_new_class(num_classes)
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
+    model.summary()
     train(model, X, Y)
     return "Success"
+
 
 if __name__ =='__main__':
 	app.run(debug=False, port=8888)

@@ -22,7 +22,7 @@ def create_model_new_class(num_classes):
     return model
 
 def train(model, X, Y):
-    history = model.fit(X, Y, epochs = 8, batch_size = 32)
+    model.fit(X, Y, epochs = 2, batch_size = 10)
     model.save('model_20-2.h5')
 
 def load_data():
